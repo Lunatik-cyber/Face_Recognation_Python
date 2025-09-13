@@ -231,6 +231,9 @@ class PersonnelApp:
                 "age": "Ýaşy",
                 "rank": "Derejesi",
                 "status": "Ýagdaýy",
+                "procentage": "Ynanyş derejesi",
+                "validality": "Ynamlylyk",
+                "name": "Ady",
                 
                 # Формы ввода
                 "enter_full_name": "Ady-familiýasy:",
@@ -1158,7 +1161,7 @@ class PersonnelApp:
 {self.get_text("procentage")}: {confidence:.2%}
 """
         else:
-            info_text = f"{self.get_text("name")}: {name}\{self.get_text("validality")}: {confidence:.2%}\n{self.get_text("employee_info_not_found")}"
+            info_text = f"{self.get_text('name')}: {name}\n{self.get_text('validality')}: {confidence:.2%}\n{self.get_text('employee_info_not_found')}"
         
         self.current_info_text.config(state=tk.NORMAL)
         self.current_info_text.delete(1.0, tk.END)
