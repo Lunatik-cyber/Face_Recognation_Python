@@ -84,17 +84,17 @@ Dilleri çalyşmak üçin interfeýsdäki saýlama menýusyny ulanyň.
 
 ✅ **100% Complete** / **100% Готово** / **100% Tamamlandy**
 
-- Total translation keys: **145**
-- Russian translations: **145/145** (100%)
-- Turkmen translations: **145/145** (100%)
+- Total translation keys: **156**
+- Russian translations: **156/156** (100%)
+- Turkmen translations: **156/156** (100%)
 
-### Recently Added Translations / Недавно добавленные переводы / Soňky goşulan terjimeler
+### Recently Completed Translations / Недавно завершённые переводы / Soňky tamamlanan terjimeler
 
-| Key | Russian | Turkmen |
-|-----|---------|---------|
-| `name` | Имя | Ady |
-| `procentage` | Уверенность распознавания | Ynanyş derejesi |
-| `validality` | Уверенность | Ynamlylyk |
+All Russian text in the interface has been successfully converted to use the translation system. The application now provides complete bilingual support with no hardcoded strings remaining.
+
+Все русские тексты в интерфейсе успешно переведены на использование системы переводов. Приложение теперь обеспечивает полную двуязычную поддержку без оставшихся жёстко запрограммированных строк.
+
+Interfeýsdäki ähli rus tekstler terjime ulgamyny ulanmak üçin üstünlikli öwrüldi. Programma indi gaty programmirlenmedik setirler galmandyr doly iki dilli goldawy üpjün edýär.
 
 ## File Structure / Структура файлов / Faýl gurluşy
 

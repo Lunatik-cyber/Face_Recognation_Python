@@ -19,7 +19,7 @@ from simple_face_recognizer import SimpleFaceRecognizer
 class PersonnelApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Система учета персонала - Распознавание лиц")
+        self.root.title(self.get_text("main_title"))
         self.root.geometry("1200x800")
         
         # Инициализация распознавателя лиц
@@ -190,7 +190,20 @@ class PersonnelApp:
                 "history_window_title": "История входов/выходов",
                 "column_name": "ФИО",
                 "column_action": "Действие", 
-                "column_time": "Время"
+                "column_time": "Время",
+                
+                # Дополнительные переводы для исправления незавершённого перевода
+                "no_photo_found": "Фото не найдено",
+                "error_title": "Ошибка",
+                "fill_all_fields_error": "Заполните все поля!",
+                "age_number_error": "Возраст должен быть числом!",
+                "photo_from_db_title": "Фотография из базы данных",
+                "error_loading_original": "Ошибка загрузки оригинального фото",
+                "error_loading_face": "Ошибка загрузки фото лица",
+                "recent_entries_title": "Последние входы/выходы",
+                "no_history_found": "История не найдена",
+                "failed_load_image": "Не удалось загрузить изображение",
+                "failed_load_face_image": "Не удалось загрузить изображение лица"
             },
             
             "tm": {
@@ -353,7 +366,20 @@ class PersonnelApp:
                 "history_window_title": "Girişler/çykyşlar taryhy",
                 "column_name": "Ady-familiýasy",
                 "column_action": "Hereket",
-                "column_time": "Wagt"
+                "column_time": "Wagt",
+                
+                # Дополнительные переводы для исправления незавершённого перевода
+                "no_photo_found": "Surat tapylmady",
+                "error_title": "Ýalňyşlyk",
+                "fill_all_fields_error": "Ähli meýdanlary dolduryň!",
+                "age_number_error": "Ýaş san bolmaly!",
+                "photo_from_db_title": "Maglumat bazasyndan surat",
+                "error_loading_original": "Asyl suraty ýükläp bolmady",
+                "error_loading_face": "Ýüz suratyny ýükläp bolmady",
+                "recent_entries_title": "Soňky girişler/çykyşlar",
+                "no_history_found": "Taryh tapylmady",
+                "failed_load_image": "Surat ýükläp bolmady",
+                "failed_load_face_image": "Ýüz suratyny ýükläp bolmady"
             }
         }
         
@@ -1080,7 +1106,7 @@ class PersonnelApp:
                 photo_shown = True
         
         if not photo_shown:
-            ttk.Label(photo_frame, text="Фото не найдено", font=("Arial", 10, "italic")).pack(pady=20)
+            ttk.Label(photo_frame, text=self.get_text("no_photo_found"), font=("Arial", 10, "italic")).pack(pady=20)
         
         # Информация о сотруднике
         info_frame = ttk.LabelFrame(dialog, text=self.get_text("employee_info"))
@@ -1296,13 +1322,13 @@ class PersonnelApp:
             new_rank = rank_entry.get().strip()
             
             if not all([new_name, new_position, new_age, new_rank]):
-                messagebox.showerror("Ошибка", "Заполните все поля!")
+                messagebox.showerror(self.get_text("error_title"), self.get_text("fill_all_fields_error"))
                 return
             
             try:
                 new_age = int(new_age)
             except ValueError:
-                messagebox.showerror("Ошибка", "Возраст должен быть числом!")
+                messagebox.showerror(self.get_text("error_title"), self.get_text("age_number_error"))
                 return
             
             # Обновляем информацию
@@ -1367,7 +1393,7 @@ class PersonnelApp:
         ttk.Label(main_frame, text=info_text, font=("Arial", 10), justify=tk.LEFT).pack(pady=10)
         
         # Фотография
-        photo_frame = ttk.LabelFrame(info_window, text="Фотография из базы данных")
+        photo_frame = ttk.LabelFrame(info_window, text=self.get_text("photo_from_db_title"))
         photo_frame.pack(pady=10, padx=20, fill=tk.X)
         
         # Пытаемся загрузить оригинальную фотографию
@@ -1396,9 +1422,9 @@ class PersonnelApp:
                     photo_label.image = original_photo  # Сохраняем ссылку
                     photo_label.pack(pady=10)
                 else:
-                    raise Exception("Не удалось загрузить изображение")
+                    raise Exception(self.get_text("failed_load_image"))
             except Exception as e:
-                ttk.Label(photo_frame, text=f"Ошибка загрузки оригинального фото: {e}").pack(pady=10)
+                ttk.Label(photo_frame, text=f"{self.get_text('error_loading_original')}: {e}").pack(pady=10)
         elif face_photo_path and os.path.exists(face_photo_path):
             # Показываем обработанное лицо
             try:
@@ -1413,9 +1439,9 @@ class PersonnelApp:
                     photo_label.image = face_photo  # Сохраняем ссылку
                     photo_label.pack(pady=10)
                 else:
-                    raise Exception("Не удалось загрузить изображение лица")
+                    raise Exception(self.get_text("failed_load_face_image"))
             except Exception as e:
-                ttk.Label(photo_frame, text=f"Ошибка загрузки фото лица: {e}").pack(pady=10)
+                ttk.Label(photo_frame, text=f"{self.get_text('error_loading_face')}: {e}").pack(pady=10)
         else:
             # Показываем сохраненное лицо из базы данных
             stored_faces = self.face_recognizer.get_stored_face_images(name)
@@ -1431,10 +1457,10 @@ class PersonnelApp:
                 photo_label.image = face_photo
                 photo_label.pack(pady=10)
             else:
-                ttk.Label(photo_frame, text="Фото не найдено", font=("Arial", 10, "italic")).pack(pady=20)
+                ttk.Label(photo_frame, text=self.get_text("no_photo_found"), font=("Arial", 10, "italic")).pack(pady=20)
         
         # История входов/выходов
-        history_frame = ttk.LabelFrame(info_window, text="Последние входы/выходы")
+        history_frame = ttk.LabelFrame(info_window, text=self.get_text("recent_entries_title"))
         history_frame.pack(pady=10, padx=20, fill=tk.BOTH, expand=True)
         
         # Получаем историю для этого сотрудника
@@ -1450,10 +1476,10 @@ class PersonnelApp:
                 history_text.insert(tk.END, f"{entry['action']} - {entry['time']}\n")
             history_text.config(state=tk.DISABLED)
         else:
-            ttk.Label(history_frame, text="История не найдена", font=("Arial", 10, "italic")).pack(pady=20)
+            ttk.Label(history_frame, text=self.get_text("no_history_found"), font=("Arial", 10, "italic")).pack(pady=20)
         
         # Кнопка закрытия
-        ttk.Button(info_window, text="Закрыть", 
+        ttk.Button(info_window, text=self.get_text("close_button"), 
                   command=info_window.destroy).pack(pady=10)
     
     def __del__(self):
